@@ -147,10 +147,40 @@ function parseDate(value) {
 }
 
 function detectTransmission(description = '') {
-  const d = description.toLowerCase();
-  if (/(s tronic|xtron|xtronic|cvt|powershift|automatic|auto)/.test(d)) return 'Automatic';
-  if (/manual/.test(d)) return 'Manual';
-  return 'Contact dealer';
+  const d = String(description || '').toLowerCase();
+
+  const automaticTerms = [
+    'automatic',
+    ' auto ',
+    's tronic',
+    's-tronic',
+    'g-tronic',
+    'xtronic',
+    'xtron',
+    'cvt',
+    'powershift',
+    'multimode',
+    'multitronic',
+    'tiptronic',
+    'steptronic',
+    'dsg',
+    'dct',
+    'e-cvt'
+  ];
+
+  if (automaticTerms.some(term => d.includes(term))) {
+    return 'Automatic';
+  }
+
+  if (d.includes('manual')) {
+    return 'Manual';
+  }
+
+  if (!d.trim()) {
+    return 'Contact dealer';
+  }
+
+  return 'Manual';
 }
 
 function detectMakeModel(description = '') {
