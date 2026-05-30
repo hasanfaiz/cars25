@@ -1,0 +1,13 @@
+{
+  "name": "cars25-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate-site.mjs",
+    "serve": "npx serve dist"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.10"
+  }
+}
