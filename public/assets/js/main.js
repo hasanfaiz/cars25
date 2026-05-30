@@ -186,16 +186,49 @@
     const empty = document.getElementById('emptyState');
     const reset = document.getElementById('resetFilters');
 
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('make') && filters.make) filters.make.value = params.get('make');
-    if (params.get('search') && filters.search) filters.search.value = params.get('search');
+    const normalise = value => String(value || '')
+      .replace(/&amp;/g, '&')
+      .toLowerCase()
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
 
-    const apply = () => {
-      const q = (filters.search?.value || '').trim().toLowerCase();
-      const make = filters.make?.value || '';
-      const fuel = filters.fuel?.value || '';
-      const body = filters.body?.value || '';
-      const transmission = filters.transmission?.value || '';
+    const setSelectFromParam = (select, value) => {
+      if (!select || !value) return;
+      const target = normalise(value);
+      const exact = Array.from(select.options).find(option => normalise(option.value) === target || normalise(option.textContent) === target);
+      if (exact) select.value = exact.value;
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('search') && filters.search) filters.search.value = params.get('search');
+    setSelectFromParam(filters.make, params.get('make'));
+    setSelectFromParam(filters.fuel, params.get('fuel'));
+    setSelectFromParam(filters.body, params.get('body'));
+    setSelectFromParam(filters.transmission, params.get('transmission'));
+    setSelectFromParam(filters.sort, params.get('sort'));
+
+    const updateUrl = () => {
+      const next = new URLSearchParams();
+      if (filters.search?.value.trim()) next.set('search', filters.search.value.trim());
+      if (filters.make?.value) next.set('make', filters.make.value);
+      if (filters.fuel?.value) next.set('fuel', filters.fuel.value);
+      if (filters.body?.value) next.set('body', filters.body.value);
+      if (filters.transmission?.value) next.set('transmission', filters.transmission.value);
+      if (filters.sort?.value && filters.sort.value !== 'price-desc') next.set('sort', filters.sort.value);
+      const query = next.toString();
+      const newUrl = `${window.location.pathname}${query ? `?${query}` : ''}`;
+      history.replaceState({}, '', newUrl);
+    };
+
+    const apply = (shouldUpdateUrl = false) => {
+      const q = normalise(filters.search?.value || '');
+      const qTokens = q ? q.split(' ').filter(Boolean) : [];
+      const make = normalise(filters.make?.value || '');
+      const fuel = normalise(filters.fuel?.value || '');
+      const body = normalise(filters.body?.value || '');
+      const transmission = normalise(filters.transmission?.value || '');
       const sort = filters.sort?.value || 'price-desc';
 
       cards.sort((a, b) => {
@@ -213,25 +246,40 @@
 
       let visible = 0;
       cards.forEach(card => {
-        const match = (!q || (card.dataset.title || '').includes(q)) &&
-          (!make || card.dataset.make === make) &&
-          (!fuel || card.dataset.fuel === fuel) &&
-          (!body || card.dataset.body === body) &&
-          (!transmission || card.dataset.transmission === transmission);
+        const title = normalise(card.dataset.title || card.textContent || '');
+        const matchSearch = !qTokens.length || qTokens.every(token => title.includes(token));
+        const match = matchSearch &&
+          (!make || normalise(card.dataset.make) === make) &&
+          (!fuel || normalise(card.dataset.fuel) === fuel) &&
+          (!body || normalise(card.dataset.body) === body) &&
+          (!transmission || normalise(card.dataset.transmission) === transmission);
+
         card.hidden = !match;
+        card.classList.toggle('is-filtered-out', !match);
+        card.setAttribute('aria-hidden', match ? 'false' : 'true');
         if (match) visible += 1;
       });
+
       if (count) count.textContent = visible;
       if (empty) empty.hidden = visible !== 0;
+      if (shouldUpdateUrl) updateUrl();
     };
 
-    Object.values(filters).forEach(input => input && input.addEventListener('input', apply));
-    if (reset) reset.addEventListener('click', () => {
-      Object.values(filters).forEach(input => { if (input) input.value = input.id === 'stockSort' ? 'price-desc' : ''; });
-      apply();
-      history.replaceState({}, '', '/used-cars/');
+    Object.entries(filters).forEach(([name, input]) => {
+      if (!input) return;
+      const eventName = name === 'search' ? 'input' : 'change';
+      input.addEventListener(eventName, () => apply(true));
     });
-    apply();
+
+    if (reset) reset.addEventListener('click', () => {
+      Object.entries(filters).forEach(([name, input]) => {
+        if (!input) return;
+        input.value = name === 'sort' ? 'price-desc' : '';
+      });
+      apply(true);
+    });
+
+    apply(false);
   }
 
   function attachForm(form) {

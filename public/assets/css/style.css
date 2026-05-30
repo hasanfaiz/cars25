@@ -343,3 +343,11 @@ input.error, textarea.error, select.error { border-color: #a52a2a; }
 .thumb-scroll[data-thumb-scroll='next']::before {
   transform: translateX(-1px) rotate(-45deg);
 }
+
+/* Filtering visibility fix: author display rules must not override hidden cards. */
+[hidden],
+.vehicle-card[hidden],
+.vehicle-result-card[hidden],
+.is-filtered-out {
+  display: none !important;
+}
