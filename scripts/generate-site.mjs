@@ -569,8 +569,7 @@ function homepage(vehicles) {
           <p class="eyebrow">Current stock</p>
           <h2>Featured used cars</h2>
         </div>
-        <p>Every vehicle shown here is generated from the Cars25 stock CSV, so the homepage count and featured stock update when the CSV is replaced and the site is rebuilt.</p>
-      </div>
+      <p>Browse our latest hand-picked used cars in Darlington. Each vehicle is presented with clear photos, pricing, mileage and key details so you can enquire with confidence before visiting Cars25.</p>      </div>
       <div class="vehicle-grid featured-grid">
         ${vehicles.map(v => card(v)).join('')}
       </div>
