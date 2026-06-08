@@ -14,9 +14,11 @@ const BRAND = {
   legalName: 'Cars25 Limited',
   tagline: 'Quality Pre-Loved Cars',
   domain: 'https://cars25.uk',
-  phoneDisplay: '+44 7887 936120',
-  phoneTel: '+447887936120',
-  whatsapp: 'https://wa.me/447887936120',
+  phoneDisplay: '+44 (0) 1325 514004',
+  phoneTel: '+441325514004',
+  mobileDisplay: '+44 (0) 7345 647243',
+  mobileTel: '+447345647243',
+  whatsapp: 'https://wa.me/447345647243',
   addressLines: ['Unit 3, Henson Road', 'Darlington', 'County Durham', 'DL1 4QD'],
   addressOneLine: 'Unit 3, Henson Road, Darlington, County Durham, DL1 4QD',
   autotraderProfile: 'https://www.autotrader.co.uk/dealers/county-durham/darlington/cars25-limited-10048195?channel=cars',
@@ -357,7 +359,8 @@ function footer(vehicles) {
         <div>
           <h3>Contact</h3>
           <ul>
-            <li><a href="tel:${BRAND.phoneTel}">${BRAND.phoneDisplay}</a></li>
+            <li>Office: <a href="tel:${BRAND.phoneTel}">${BRAND.phoneDisplay}</a></li>
+            <li>Mobile: <a href="tel:${BRAND.mobileTel}">${BRAND.mobileDisplay}</a></li>
             <li>${BRAND.addressLines.map(escapeHtml).join('<br>')}</li>
             <li><a href="${BRAND.autotraderProfile}" target="_blank" rel="noopener">Auto Trader profile</a></li>
           </ul>
@@ -823,9 +826,9 @@ function contactPage(vehicles) {
       <div class="info-card">
         <h2>Get in touch</h2>
         <dl class="detail-list">
-          <div><dt>Phone</dt><dd><a href="tel:${BRAND.phoneTel}">${BRAND.phoneDisplay}</a></dd></div>
-          <div><dt>WhatsApp</dt><dd><a href="${BRAND.whatsapp}" target="_blank" rel="noopener">Message Cars25 on WhatsApp</a></dd></div>
-          <div><dt>Address</dt><dd>${BRAND.addressLines.map(escapeHtml).join('<br>')}</dd></div>
+          <div><dt>Office phone</dt><dd><a href="tel:${BRAND.phoneTel}">${BRAND.phoneDisplay}</a></dd></div>
+          <div><dt>Mobile</dt><dd><a href="tel:${BRAND.mobileTel}">${BRAND.mobileDisplay}</a></dd></div>
+          <div><dt>WhatsApp</dt><dd><a href="${BRAND.whatsapp}" target="_blank" rel="noopener">Message Cars25 on WhatsApp</a></dd></div>          <div><dt>Address</dt><dd>${BRAND.addressLines.map(escapeHtml).join('<br>')}</dd></div>
           <div><dt>Auto Trader</dt><dd><a href="${BRAND.autotraderProfile}" target="_blank" rel="noopener">View Cars25 profile</a></dd></div>
         </dl>
         <iframe class="map-frame" title="Cars25 Darlington map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${encodeURIComponent(BRAND.addressOneLine)}&output=embed"></iframe>
