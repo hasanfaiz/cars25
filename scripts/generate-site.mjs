@@ -672,19 +672,19 @@ function aboutPage(vehicles) {
     {
       name: 'Amanullah Liyakath Ali',
       role: 'Director',
-      linkedin: 'https://linkedin.com', // Add Amanullah LinkedIn URL here
+      linkedin: '', // Add Amanullah LinkedIn URL here
       bio: 'Amanullah brings more than 20 years of experience in the automotive industry, with strong practical knowledge of vehicle sourcing, customer expectations, stock quality and dealership operations. His industry experience helps Cars25 focus on the right cars, clear communication and a reliable buying experience for customers in Darlington.'
     },
     {
       name: 'Malaa Ayyappan',
       role: 'Director',
-      linkedin: 'https://linkedin.com', // Add Malaa LinkedIn URL here
+      linkedin: '', // Add Malaa LinkedIn URL here
       bio: 'Malaa brings a strong IT and data-driven background to Cars25, supporting the business with structured thinking, process clarity and a modern digital approach. Her experience helps the company stay organised, customer-focused and ready to grow with the right technology foundations.'
     },
     {
       name: 'Gowthami Vanamoorthy Lingam',
       role: 'Director',
-      linkedin: 'https://linkedin.com', // Add Gowthami LinkedIn URL here
+      linkedin: '', // Add Gowthami LinkedIn URL here
       bio: 'Gowthami brings valuable experience from the IT and business operations space, helping Cars25 combine traditional motor trade knowledge with a modern, systems-led approach. This supports better visibility, smoother customer journeys and a scalable digital future for the business.'
     }
   ];
