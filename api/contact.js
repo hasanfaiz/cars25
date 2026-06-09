@@ -57,14 +57,15 @@ export default async function handler(req, res) {
     <p><strong>Message:</strong><br>${message.replace(/\n/g, '<br>')}</p>
   `;
 
-  await transporter.sendMail({
-    from: process.env.MAIL_FROM,
-    to: process.env.MAIL_TO,
-    replyTo: email || process.env.MAIL_FROM,
-    subject,
-    text: `New Cars25 enquiry\n\nSource: ${source}\nName: ${name}\nPhone: ${phone}\nEmail: ${email || 'Not provided'}\nVehicle: ${vehicle || 'General enquiry'}\nMessage:\n${message}`,
-    html
-  });
+await transporter.sendMail({
+  from: process.env.MAIL_FROM,
+  to: process.env.MAIL_TO,
+  cc: process.env.MAIL_CC || undefined,
+  replyTo: email || process.env.MAIL_FROM,
+  subject,
+  text: `New Cars25 enquiry\n\nSource: ${source}\nName: ${name}\nPhone: ${phone}\nEmail: ${email || 'Not provided'}\nVehicle: ${vehicle || 'General enquiry'}\nMessage:\n${message}`,
+  html
+});
 
   return res.status(200).json({ ok: true, message: 'Enquiry sent.' });
 }
