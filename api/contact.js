@@ -56,8 +56,7 @@ export default async function handler(req, res) {
     <p><strong>Vehicle:</strong> ${vehicle || 'General enquiry'}</p>
     <p><strong>Message:</strong><br>${message.replace(/\n/g, '<br>')}</p>
   `;
-console.log('MAIL_TO:', process.env.MAIL_TO);
-console.log('MAIL_CC exists:', Boolean(process.env.MAIL_CC));
+
 await transporter.sendMail({
   from: process.env.MAIL_FROM,
   to: process.env.MAIL_TO,
